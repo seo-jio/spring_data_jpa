@@ -1,6 +1,7 @@
 package study.datajpa.dto;
 
 import lombok.Data;
+import study.datajpa.entity.Member;
 
 @Data
 public class MemberDto {
@@ -12,5 +13,11 @@ public class MemberDto {
         this.id = id;
         this.username = username;
         this.teamName = teamName;
+    }
+
+    //엔티티를 dto로 변활할 때 편리성을 위하여 엔티티를 파라미터로 받는 생성자 구현
+    public MemberDto(Member member){
+        this.id = member.getId();
+        this.username = member.getUsername();
     }
 }

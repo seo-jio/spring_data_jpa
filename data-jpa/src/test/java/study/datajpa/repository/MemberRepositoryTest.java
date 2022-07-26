@@ -13,6 +13,8 @@ import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +29,9 @@ class MemberRepositoryTest {
 
     @Autowired private MemberRepository memberRepository;
     @Autowired private TeamRepository teamRepository;
+
+    @PersistenceContext
+    EntityManager em;
 
     @Test
     public void MemberRepositoryTest() throws Exception {
@@ -138,5 +143,36 @@ class MemberRepositoryTest {
         assertThat(page.isFirst()).isTrue();
         assertThat(page.hasNext()).isTrue();
 
+    }
+
+    @Test
+    public void bulkAgePlus() throws Exception {
+        //given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 19));
+        memberRepository.save(new Member("member3", 20));
+        memberRepository.save(new Member("member4", 30));
+        memberRepository.save(new Member("member5", 40));
+        //when
+        memberRepository.bulkAgePlus(20);
+//        em.clear(); //벌크 연산 이후 clear 필수
+        List<Member> result = memberRepository.findByUsername("member5");
+        Member member = result.get(0);
+        System.out.println("member = " + member);
+    }
+
+    @Test
+    public void entityGraph() throws Exception {
+        //given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 19));
+        //when
+        List<Member> result = memberRepository.findAll();
+    }
+
+    //사용자 정의 레포지토리의 findMemberCustom()메소드를 불러온다.
+    @Test
+    public void findMemberCustom() throws Exception {
+        List<Member> result = memberRepository.findMemberCustom();
     }
 }

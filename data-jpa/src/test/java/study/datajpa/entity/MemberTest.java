@@ -47,4 +47,22 @@ class MemberTest {
         }
     }
 
+    @Test
+    public void BaseEntity() throws Exception {
+        //given
+        Member member = new Member("seojio");
+        em.persist(member);  //createdTime 실행
+        //when
+        member.setUsername("new-seojio");
+
+        em.flush();  //updatedTime 실행
+        em.clear();
+        //then
+
+        System.out.println("member.getCreatedDate() = " + member.getCreatedDate());
+        System.out.println("member.getLastModifiedDate() = " + member.getLastModifiedDate());
+        System.out.println("member.getCreatedBy() = " + member.getCreatedBy());
+        System.out.println("member.getLastModifiedBy() = " + member.getLastModifiedBy());
+
+    }
 }
