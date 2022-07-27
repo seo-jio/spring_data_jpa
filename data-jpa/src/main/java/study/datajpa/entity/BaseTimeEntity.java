@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Getter
 public class BaseTimeEntity {
+    //CreatedDate, LastModifiedDate 모두 jpa 어노테이션으로 persist를 하면 jpa가 값을 넣어준다.
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdDate;
